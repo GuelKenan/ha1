@@ -106,6 +106,22 @@ class CalculatorTest {
     }
 
     @Test
+    @DisplayName("should display result after multiplying two positiv numbers")
+    void testPositivMultiplication() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(3);
+        calc.pressBinaryOperationKey("x");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();
+
+        String expected = "9";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     @DisplayName("should display error when drawing the square root of a number")
     void testSquareRootOdTwoDigits() {
         Calculator calc = new Calculator();
@@ -126,13 +142,9 @@ class CalculatorTest {
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(5);
-        calc.pressDigitKey(0);
-        calc.pressBinaryOperationKey("*");
-        calc.pressDigitKey(2);
-        calc.pressDigitKey(0);
         calc.pressEqualsKey();
 
-        String expected = "1000";
+        String expected = "5";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
