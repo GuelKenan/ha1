@@ -29,6 +29,7 @@ public class Calculator {
      * @param digit Die Ziffer, deren Taste gedrückt wurde
      */
     public void pressDigitKey(int digit) {
+        clearPressedOnce = false;
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
@@ -44,10 +45,18 @@ public class Calculator {
      * Werte sowie der aktuelle Operationsmodus zurückgesetzt, so dass der Rechner wieder
      * im Ursprungszustand ist.
      */
+    private boolean clearPressedOnce = false;
+
     public void pressClearKey() {
         screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
+
+        if(clearPressedOnce) {
+            latestValue = 0.0;
+            latestOperation = "";
+            clearPressedOnce = false;
+        } else {
+            clearPressedOnce = true;
+        }
     }
 
     /**
@@ -60,6 +69,7 @@ public class Calculator {
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
+        clearPressedOnce = false;
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
     }
@@ -72,6 +82,8 @@ public class Calculator {
      * @param operation "√" für Quadratwurzel, "%" für Prozent, "1/x" für Inversion
      */
     public void pressUnaryOperationKey(String operation) {
+        clearPressedOnce = false;
+
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
         var result = switch(operation) {
@@ -97,6 +109,7 @@ public class Calculator {
      * Beim zweimaligem Drücken, oder wenn bereits ein Trennzeichen angezeigt wird, passiert nichts.
      */
     public void pressDotKey() {
+        clearPressedOnce = false;
         if(!screen.contains(".")) screen = screen + ".";
     }
 
@@ -108,6 +121,7 @@ public class Calculator {
      * entfernt und der Inhalt fortan als positiv interpretiert.
      */
     public void pressNegativeKey() {
+        clearPressedOnce = false;
         screen = screen.startsWith("-") ? screen.substring(1) : "-" + screen;
     }
 
@@ -121,12 +135,14 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+        clearPressedOnce = false;
+
         var result = switch(latestOperation) {
             case "+" -> latestValue + Double.parseDouble(screen);
             case "-" -> latestValue - Double.parseDouble(screen);
             case "x" -> latestValue * Double.parseDouble(screen);
             case "/" -> latestValue / Double.parseDouble(screen);
-            case "" -> Double.parseDouble(screen);
+            case "" -> latestValue = Double.parseDouble(screen);
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);

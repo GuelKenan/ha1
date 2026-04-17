@@ -105,6 +105,8 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    //TODO hier weitere Tests erstellen
+
     @Test
     @DisplayName("should display result after multiplying two positiv numbers")
     void testPositivMultiplication() {
@@ -136,20 +138,24 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+
     @Test
-    @DisplayName("should display result after multiply two positive multi-digit numbers")
-    void testPositivmultiiply() {
-        Calculator calc = new Calculator();
+    @DisplayName("should clear entry first and everthing by the second pressing")
+        void testClearKey(){
+        Calculator c = new Calculator();
+        c.pressDigitKey(2);
+        c.pressBinaryOperationKey("+");
+        c.pressDigitKey(3);
 
-        calc.pressDigitKey(5);
-        calc.pressEqualsKey();
+        c.pressClearKey();
+        c.pressClearKey();
 
-        String expected = "5";
-        String actual = calc.readScreen();
+        c.pressDigitKey(4);
+        c.pressEqualsKey();
 
-        assertEquals(expected, actual);
+        assertEquals("4", c.readScreen());
     }
 
-    //TODO hier weitere Tests erstellen
+
 }
 
