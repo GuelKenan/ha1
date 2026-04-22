@@ -124,7 +124,7 @@ class CalculatorTest {
     }
 
     @Test
-    @DisplayName("should display error when drawing the square root of a number")
+    @DisplayName("should display the result when drawing the square root of a number")
     void testSquareRootOdTwoDigits() {
         Calculator calc = new Calculator();
 
@@ -140,7 +140,7 @@ class CalculatorTest {
 
 
     @Test
-    @DisplayName("should clear entry first and everthing by the second pressing")
+    @DisplayName("should clear entry first and everything by the second pressing")
         void testClearKey(){
         Calculator c = new Calculator();
         c.pressDigitKey(2);
